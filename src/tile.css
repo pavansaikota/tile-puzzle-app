@@ -1,0 +1,21 @@
+.tile{
+    border-radius: 2px;
+    padding: 10px;
+    margin: 5px;
+    background-color: white;
+    width: Auto ;
+    height: 30px;
+    text-align:center;
+    vertical-align: middle;
+    line-height: 30px;
+}
+
+.num{
+    font-weight: bold;
+    color: black;
+}
+
+:host([num="0"]) .tile{
+    background: black;
+    opacity: 0.1;
+}

@@ -1,0 +1,52 @@
+.difficulty-level{
+    padding:10px;
+    width:50%;
+    margin:auto;
+}
+
+#title{
+    width: 30%;
+    margin: auto;
+}
+
+.new-game{
+    position: absolute;
+    top: 100px;
+    left: 20px;
+}
+
+.game-container{
+    margin: auto;
+    width:70%;
+    position: relative;
+}
+
+.timer{
+    position: absolute;
+    left: 30px;
+    top:60px;
+    color: crimson;
+}
+.grid{
+    width: 60%;
+    margin: auto;
+    height: 380px;
+    padding: 60px;
+}
+
+.grid.easy{
+    padding:60px;
+}
+
+.grid.medium{
+    padding: 40px;
+}
+
+.grid.hard{
+    padding: 0px;
+}
+
+.difficulty-level .header{
+    margin: 20px 0px 20px 40px;
+    color: blueviolet;
+}

@@ -1,0 +1,24 @@
+.grid{
+    background-color: cornflowerblue;
+    width: 200px;
+    height:200px;
+    padding:10px;
+}
+
+.no-gutters-custom{
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+#game-status{
+    display: none;
+    margin: 10px 0px 10px 0px;
+    height: 40px;
+    width: 240px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 40px;
+    background-color: cadetblue;
+}

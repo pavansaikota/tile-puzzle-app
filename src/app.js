@@ -2,21 +2,39 @@ import './grid.js';
 const html = `
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel='stylesheet' href='app.css'/>
-    <div id='title'><h3>NUBLE</h3></div>
-    <div class='game-container'>
-    <div class='timer'><span>TIME:</span><span id='timer'></span></div>
-    <div class='new-game'><button class='btn btn-outline-primary' id='new-game'>New Game</button></div>
-    <div class='grid'>
-        <grid-element></grid-element>
+    <div class="container">
+    <div class="header-container">
+        <div id='title'>SNUBLE</div>
     </div>
-    <div class = 'difficulty-level'>
-        <h6 class='header'>DIFFICULTY LEVEL</h6>
-        <div class="btn-group">
-            <button class='btn btn-outline-primary' id='easy'>EASY</button>
-            <button class='btn btn-outline-primary' id='medium'>MEDIUM</button>
-            <button class='btn btn-outline-primary' id='hard'>DIFFICULT</button>
+    <div class="game-container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="trackers">
+                    <div class='tracker'><span>TIME:</span><span id='timer'>0</span></div>
+                    <div class='tracker'><span>MOVES:</span><span id='moves'>0</span></div>
+                </div>
+                <div class="controls">
+                    <button class='btn btn-warning' id='undo'>UNDO</button>
+                    <button class='btn btn-success' id='new-game'>NEW GAME</button>
+                    <button class='btn btn-primary' id='auto-solve'>AUTO SOLVE</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class='grid'>
+                    <grid-element></grid-element>
+                </div>
+                <div class = 'difficulty-level'>
+                    <h6 class='header'>DIFFICULTY LEVEL</h6>
+                    <div class="level-buttons">
+                        <button class='btn btn-outline-primary' id='easy'>EASY</button>
+                        <button class='btn btn-outline-success' id='medium'>MEDIUM</button>
+                        <button class='btn btn-outline-warning' id='hard'>DIFFICULT</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+            </div>
         </div>
-    </div>
     </div>
 `;
 let currentLevel = 'easy';
@@ -29,7 +47,7 @@ class TileApp extends HTMLElement{
     }
 
     connectedCallback(){
-        this.$$('.btn-group').addEventListener('click',(e)=>{
+        this.$$('.level-buttons').addEventListener('click',(e)=>{
             if(e.target.id != e.currentTarget.id){
                 this.resetGame(e.target.id);
             }

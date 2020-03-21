@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "express": "latest"
+  },
+  "scripts": {
+    "start-app": "node serve.js"
+  }
+}

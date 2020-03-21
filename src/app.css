@@ -1,52 +1,76 @@
-.difficulty-level{
-    padding:10px;
-    width:50%;
-    margin:auto;
+.game-container{
+    background-color: #7FF4D4;
+}
+
+.header-container{
+    background-color:#D2691E;
+    height:60px;
+    position:relative;
 }
 
 #title{
-    width: 30%;
-    margin: auto;
+        font-size: 45px;
+        font-width: 10px;
+        font-weight: 700;
+        bottom: -0.6em;
+        position: absolute;
+        left: 50%;
+        color: aliceblue;
+        margin-left: -2.5em;
+        letter-spacing: 5px;
+        font-family: cursive;
 }
 
-.new-game{
-    position: absolute;
-    top: 100px;
-    left: 20px;
+.trackers{
+    margin:70px 30px 25px 25px;
 }
 
-.game-container{
-    margin: auto;
-    width:70%;
-    position: relative;
+.controls{
+    margin:30px 30px 25px 25px;
 }
 
-.timer{
-    position: absolute;
-    left: 30px;
-    top:60px;
-    color: crimson;
+.controls button{
+    width: 150px;
+    display:block;
+    font: bold;
+    color: white;
+    margin:10px 30px 10px 10px;
+}
+
+.trackers .tracker{
+    margin:20px;
 }
 .grid{
-    width: 60%;
+    width: 80%;
     margin: auto;
-    height: 380px;
-    padding: 60px;
 }
 
 .grid.easy{
-    padding:60px;
+    padding: 70px 110px;
 }
 
 .grid.medium{
-    padding: 40px;
+    padding: 60px 80px;
 }
 
 .grid.hard{
-    padding: 0px;
+    padding: 40px 30px;
 }
 
 .difficulty-level .header{
     margin: 20px 0px 20px 40px;
     color: blueviolet;
+}
+.level-buttons{
+    margin-left:30px;
+}
+.level-buttons button{
+    width:100px;
+}
+
+.difficulty-level{
+    padding:10px;
+    width:80%;
+    margin:auto;
+    text-align: center;
 }

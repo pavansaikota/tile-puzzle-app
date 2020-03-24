@@ -10,8 +10,8 @@ const html = `
         <div class="row">
             <div class="col-md-3">
                 <div class="trackers">
-                    <div class='tracker'><span>TIME:</span><span id='timer'>0</span></div>
-                    <div class='tracker'><span>MOVES:</span><span id='moves'>0</span></div>
+                    <div class='tracker timer'><span>TIME:</span><span id='timer'>0</span></div>
+                    <div class='tracker moves'><span>MOVES:</span><span id='moves'>0</span></div>
                 </div>
                 <div class="controls">
                     <button class='btn btn-warning' id='undo'>UNDO</button>
@@ -56,7 +56,10 @@ class TileApp extends HTMLElement{
         this.$$('#new-game').addEventListener('click',()=>{
             this.resetGame(currentLevel);
         });
-        timer = this.setTimer();
+
+        this.$$('grid-element').addEventListener('finish',()=>{
+            timer();
+        });
         this.resetGame('easy');
     }
 
@@ -64,19 +67,19 @@ class TileApp extends HTMLElement{
         this.$$('grid-element').loadGame(level);
         this.$$('.grid').classList.remove(currentLevel);
         this.$$('.grid').classList.add(level);
+        this.$$(`.level-buttons #${currentLevel}`).classList.remove('selected');
+        this.$$(`.level-buttons #${level}`).classList.add('selected');
         currentLevel = level;
-        timer();
+        timer = this.setTimer();
     }
 
     setTimer(){
-        let start;
-        let timer;
+        let start = 0;
+        let timer = setInterval(()=>{
+                        this.$$('#timer').innerHTML = start++;
+                    },1000);
         return () => {
-            start=0;
             clearInterval(timer);
-            timer = setInterval(()=>{
-                this.$$('#timer').innerHTML = start++;
-            },1000);
         }
     }
 }

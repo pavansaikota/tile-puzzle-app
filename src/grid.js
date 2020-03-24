@@ -3,7 +3,7 @@ const html = `
     <link rel='stylesheet' href='grid.css'/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <div id = 'grid' class='grid'></div>
-    <div id='game-status'></div>
+    <div id='game-status'><b>You Won</b></div>
 `;
 
 class Level {
@@ -56,8 +56,9 @@ class Grid extends HTMLElement{
                 tilesArray[currentPosition] = 0;
                 emptyTilePosition = currentPosition;
                 if(isGameComplete([...tilesArray])){
-                    this.$$('#game-status').innerHTML = "<b>You Won</b>";
                     this.$$('#game-status').style.display = 'block';
+                    let finishEvent = new Event('finish');
+                    this.dispatchEvent(finishEvent);
                 }
             }
         }
@@ -65,6 +66,7 @@ class Grid extends HTMLElement{
     }
 
     setGame(level){
+        this.$$('#game-status').style.display = 'none';
         this.$$('.grid').innerHTML = "";
         let l = levels[level]['length'];
         this.$$('.grid').style.width = l+'px';

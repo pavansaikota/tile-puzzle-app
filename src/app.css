@@ -1,5 +1,5 @@
 .game-container{
-    background-color: #7FF4D4;
+    background-color: #556;
 }
 
 .header-container{
@@ -38,8 +38,30 @@
 }
 
 .trackers .tracker{
-    margin:20px;
+    margin:20px 35px;
+    position:relative;
 }
+
+.trackers .tracker::before{
+    background-size: 30px 30px;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    content: "";
+    background-repeat: no-repeat;
+    position: absolute;
+    left: -30px;
+    top: -8px;
+}
+
+.tracker.timer::before{
+    background-image: url(./assets/stop-watch.png);
+}
+
+.tracker.moves::before{
+    background-image: url(./assets/walking-guy.png);
+}
+
 .grid{
     width: 80%;
     margin: auto;
@@ -59,13 +81,19 @@
 
 .difficulty-level .header{
     margin: 20px 0px 20px 40px;
-    color: blueviolet;
+    color: tomato;
 }
 .level-buttons{
     margin-left:30px;
 }
 .level-buttons button{
     width:100px;
+}
+
+.level-buttons button.selected{
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
 }
 
 .difficulty-level{

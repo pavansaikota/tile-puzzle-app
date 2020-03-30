@@ -23,6 +23,7 @@ let size;
 let tilesArray;
 let emptyTilePosition;
 let listenerAdded = false;
+let isGameFinished = false;
 class Grid extends HTMLElement{
     constructor(){
         super();
@@ -36,6 +37,7 @@ class Grid extends HTMLElement{
 
     loadGame(level){
         size = levels[level]['size'];
+        isGameFinished = false;
         let game = createSolvableGame(level);
         tilesArray = game.array;
         emptyTilePosition = game.emptyTilePosition;
@@ -46,7 +48,7 @@ class Grid extends HTMLElement{
     }
 
     makeMovement(e){
-        if(e.target !== e.currentTarget){
+        if(e.target !== e.currentTarget && !isGameFinished){
             let currentPosition = parseInt(e.target.getAttribute('pos'));
             let currentNumber = parseInt(e.target.getAttribute('num'));
             if(currentPosition !== emptyTilePosition && isMovementPossible(currentPosition,emptyTilePosition,size)){
@@ -55,7 +57,10 @@ class Grid extends HTMLElement{
                 this.$$(`#block${currentPosition}`).setAttribute('num',0);
                 tilesArray[currentPosition] = 0;
                 emptyTilePosition = currentPosition;
+                let moveEvent = new Event('move');
+                this.dispatchEvent(moveEvent);
                 if(isGameComplete([...tilesArray])){
+                    isGameFinished = true;
                     this.$$('#game-status').style.display = 'block';
                     let finishEvent = new Event('finish');
                     this.dispatchEvent(finishEvent);
@@ -71,6 +76,7 @@ class Grid extends HTMLElement{
         let l = levels[level]['length'];
         this.$$('.grid').style.width = l+'px';
         this.$$('.grid').style.height = l+'px';
+        this.$$('#game-status').style.width = l+'px';
         let row = "<div class='row no-gutters'>";
         let totalRows = '';
         let arrSize = size*size;

@@ -40,6 +40,15 @@
 .trackers .tracker{
     margin:20px 35px;
     position:relative;
+    color: aliceblue;
+}
+
+#timer{
+    margin-left:10px;
+}
+
+#moves{
+    margin-left:10px;
 }
 
 .trackers .tracker::before{

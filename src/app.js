@@ -1,4 +1,5 @@
 import './grid.js';
+import './moves-log.js';
 const html = `
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel='stylesheet' href='app.css'/>
@@ -19,20 +20,21 @@ const html = `
                     <button class='btn btn-primary' id='auto-solve'>AUTO SOLVE</button>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <div class='grid'>
                     <grid-element></grid-element>
                 </div>
-                <div class = 'difficulty-level'>
-                    <h6 class='header'>DIFFICULTY LEVEL</h6>
-                    <div class="level-buttons">
-                        <button class='btn btn-outline-primary' id='easy'>EASY</button>
-                        <button class='btn btn-outline-success' id='medium'>MEDIUM</button>
-                        <button class='btn btn-outline-warning' id='hard'>DIFFICULT</button>
-                    </div>
-                </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
+                <moves-log></moves-log>
+            </div>
+        </div>
+        <div class = 'difficulty-level'>
+            <h6 class='header'>DIFFICULTY LEVEL</h6>
+            <div class="level-buttons">
+                <button class='btn btn-outline-primary' id='easy'>EASY</button>
+                <button class='btn btn-outline-success' id='medium'>MEDIUM</button>
+                <button class='btn btn-outline-warning' id='hard'>DIFFICULT</button>
             </div>
         </div>
     </div>
@@ -74,6 +76,9 @@ class TileApp extends HTMLElement{
     }
 
     resetGame(level){
+        if(timer){
+            timer();
+        }
         this.$$('grid-element').loadGame(level);
         this.$$('.grid').classList.remove(currentLevel);
         this.$$('.grid').classList.add(level);
@@ -87,6 +92,7 @@ class TileApp extends HTMLElement{
 
     setTimer(){
         let start = 0;
+        this.$$('#timer').innerHTML = start;
         let timer = setInterval(()=>{
                         this.$$('#timer').innerHTML = start++;
                     },1000);

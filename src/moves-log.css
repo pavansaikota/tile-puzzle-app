@@ -1,0 +1,15 @@
+.moves-log{
+    background-color:yellow;
+    border-radius:5px;
+    width: 70%;
+    margin:auto;
+    height: 380px;
+    margin-top: 42px;
+    overflow-y:auto;
+}
+
+.moves-log h5{
+    margin: 10px;
+    font-size: larger;
+    font-family: fantasy;
+}

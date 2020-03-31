@@ -77,15 +77,15 @@
 }
 
 .grid.easy{
-    padding: 70px 110px;
+    padding: 100px 110px;
 }
 
 .grid.medium{
-    padding: 60px 80px;
+    padding: 80px 80px;
 }
 
 .grid.hard{
-    padding: 40px 30px;
+    padding: 45px 30px;
 }
 
 .difficulty-level .header{

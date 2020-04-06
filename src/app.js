@@ -56,16 +56,33 @@ class TileApp extends HTMLElement{
             }
             e.stopPropagation();
         },false);
-        this.$$('#new-game').addEventListener('click',()=>{
-            this.resetGame(currentLevel);
-        });
+        this.$$('.controls').addEventListener('click',(e)=>{
+            if(e.target !== e.currentTarget){
+                switch(e.target.id){
+                    case "new-game":
+                        this.resetGame(currentLevel);
+                        break;
+                    case "undo":
+                        this.$$('grid-element').undo();
+                        break;
+                    case "auto-solve":
+                        console.log("aut-solve");
+                        break;
+                    case "default":
+                        break;
+                }
+            }
 
+        });
+        this.$$('#new-game').addEventListener('click',()=>{
+                    this.resetGame(currentLevel);
+        });
         this.$$('grid-element').addEventListener('finish',()=>{
             timer();
         });
 
-        this.$$('grid-element').addEventListener('move',()=>{
-              moves = moves + 1;
+        this.$$('grid-element').addEventListener('move',(e)=>{
+              moves = moves + e.detail.moves;
               this.updateMoves(moves);
         });
         this.resetGame('easy');

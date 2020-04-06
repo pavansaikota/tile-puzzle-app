@@ -24,6 +24,7 @@ let tilesArray;
 let emptyTilePosition;
 let listenerAdded = false;
 let isGameFinished = false;
+let movesStack = [];
 class Grid extends HTMLElement{
     constructor(){
         super();
@@ -52,13 +53,8 @@ class Grid extends HTMLElement{
             let currentPosition = parseInt(e.target.getAttribute('pos'));
             let currentNumber = parseInt(e.target.getAttribute('num'));
             if(currentPosition !== emptyTilePosition && isMovementPossible(currentPosition,emptyTilePosition,size)){
-                this.$$(`#block${emptyTilePosition}`).setAttribute('num',currentNumber);
-                tilesArray[emptyTilePosition] = currentNumber;
-                this.$$(`#block${currentPosition}`).setAttribute('num',0);
-                tilesArray[currentPosition] = 0;
-                emptyTilePosition = currentPosition;
-                let moveEvent = new Event('move');
-                this.dispatchEvent(moveEvent);
+                movesStack.push({oldPos:currentPosition,newPos:emptyTilePosition,num:currentNumber});
+                this.makeMove(currentPosition,currentNumber,1);
                 if(isGameComplete([...tilesArray])){
                     isGameFinished = true;
                     this.$$('#game-status').style.display = 'block';
@@ -68,6 +64,31 @@ class Grid extends HTMLElement{
             }
         }
         e.stopPropagation();
+    }
+
+    makeMove(currentPosition,currentNumber,moves){
+        this.$$(`#block${emptyTilePosition}`).setAttribute('num',currentNumber);
+        tilesArray[emptyTilePosition] = currentNumber;
+        this.$$(`#block${currentPosition}`).setAttribute('num',0);
+        tilesArray[currentPosition] = 0;
+        emptyTilePosition = currentPosition;
+        let moveEvent = new CustomEvent('move',{
+            bubbles:true,
+            cancelable:true,
+            detail:{
+                moves:moves
+            }
+        });
+        this.dispatchEvent(moveEvent);
+    }
+
+    undo(){
+        if(movesStack.length > 0){
+            let lastMove = movesStack.pop();
+            this.makeMove(lastMove.newPos,lastMove.num,-1);
+            return true;
+        }
+        return false;
     }
 
     setGame(level){

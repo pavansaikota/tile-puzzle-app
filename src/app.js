@@ -41,7 +41,6 @@ const html = `
 `;
 let currentLevel = 'easy';
 let timer;
-let moves = 0;
 class TileApp extends HTMLElement{
     constructor(){
         super();
@@ -82,14 +81,14 @@ class TileApp extends HTMLElement{
         });
 
         this.$$('grid-element').addEventListener('move',(e)=>{
-              moves = moves + e.detail.moves;
-              this.updateMoves(moves);
+              this.updateMoves(e.detail.moves);
         });
         this.resetGame('easy');
     }
 
     updateMoves(moves){
-        this.$$('#moves').innerHTML = moves;
+        this.$$('#moves').innerHTML = moves.length;
+        this.$$('moves-log').updateMoves(moves);
     }
 
     resetGame(level){
@@ -102,9 +101,8 @@ class TileApp extends HTMLElement{
         this.$$(`.level-buttons #${currentLevel}`).classList.remove('selected');
         this.$$(`.level-buttons #${level}`).classList.add('selected');
         currentLevel = level;
-        moves = 0;
         timer = this.setTimer();
-        this.updateMoves(0);
+        this.updateMoves([]);
     }
 
     setTimer(){

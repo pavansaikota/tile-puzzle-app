@@ -13,3 +13,11 @@
     font-size: larger;
     font-family: fantasy;
 }
+
+.moves-list li{
+   font-style: italic;
+   font-size: medium;
+   font-weight: 600;
+   color: brown;
+   font-family: monospace;
+}

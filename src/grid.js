@@ -54,7 +54,7 @@ class Grid extends HTMLElement{
             let currentNumber = parseInt(e.target.getAttribute('num'));
             if(currentPosition !== emptyTilePosition && isMovementPossible(currentPosition,emptyTilePosition,size)){
                 movesStack.push({oldPos:currentPosition,newPos:emptyTilePosition,num:currentNumber});
-                this.makeMove(currentPosition,currentNumber,1);
+                this.makeMove(currentPosition,currentNumber,movesStack);
                 if(isGameComplete([...tilesArray])){
                     isGameFinished = true;
                     this.$$('#game-status').style.display = 'block';
@@ -76,16 +76,16 @@ class Grid extends HTMLElement{
             bubbles:true,
             cancelable:true,
             detail:{
-                moves:moves
+                moves:moves.slice(0,moves.length)
             }
         });
         this.dispatchEvent(moveEvent);
     }
 
     undo(){
-        if(movesStack.length > 0){
+        if(movesStack.length > 0 && !isGameFinished){
             let lastMove = movesStack.pop();
-            this.makeMove(lastMove.newPos,lastMove.num,-1);
+            this.makeMove(lastMove.newPos,lastMove.num,movesStack);
             return true;
         }
         return false;

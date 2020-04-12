@@ -14,13 +14,22 @@ export class MoveLog extends HTMLElement{
     }
 
     updateMoves(moves){
-        if(moves.length > movesStack.length){
+        if(moves.length == 0){
+            this.clearLogs();
+        }
+        else if(moves.length > movesStack.length){
             movesStack.push(moves[moves.length-1]);
             this.addMove(movesStack[moves.length-1]);
-        }else if(movesStack.length > moves.length){
+        }
+        else if(movesStack.length > moves.length){
             movesStack.pop();
             this.removeLastMove();
         }
+    }
+
+    clearLogs(){
+        movesStack = [];
+         this.$$('#moves-list').innerHTML = "";
     }
 
     addMove(move){

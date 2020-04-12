@@ -65,7 +65,7 @@ class TileApp extends HTMLElement{
                         this.$$('grid-element').undo();
                         break;
                     case "auto-solve":
-                        console.log("aut-solve");
+                        this.$$('grid-element').autoSolve();
                         break;
                     case "default":
                         break;

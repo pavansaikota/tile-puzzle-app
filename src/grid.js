@@ -32,11 +32,8 @@ class Grid extends HTMLElement{
         this.$$ = css => this.shadowRoot.querySelector(css);
     }
 
-    connectedCallback(){
-        
-    }
-
     loadGame(level){
+        movesStack.length = 0;
         size = levels[level]['size'];
         isGameFinished = false;
         let game = createSolvableGame(level);
@@ -56,14 +53,18 @@ class Grid extends HTMLElement{
                 movesStack.push({oldPos:currentPosition,newPos:emptyTilePosition,num:currentNumber});
                 this.makeMove(currentPosition,currentNumber,movesStack);
                 if(isGameComplete([...tilesArray])){
-                    isGameFinished = true;
-                    this.$$('#game-status').style.display = 'block';
-                    let finishEvent = new Event('finish');
-                    this.dispatchEvent(finishEvent);
+                    this.finishGame();
                 }
             }
         }
         e.stopPropagation();
+    }
+
+    finishGame(){
+        isGameFinished = true;
+        this.$$('#game-status').style.display = 'block';
+        let finishEvent = new Event('finish');
+        this.dispatchEvent(finishEvent);
     }
 
     makeMove(currentPosition,currentNumber,moves){
@@ -113,13 +114,78 @@ class Grid extends HTMLElement{
         this.$$('.grid').innerHTML = totalRows;
     }
 
-    
-
+    async autoSolve(){
+        let lastState = -1;
+        let m = 0;
+        while(!isGameComplete([...tilesArray]) && m < 50){
+            let newArray = [...tilesArray];
+            let nextState = getNextState(newArray,emptyTilePosition,lastState);
+            lastState = emptyTilePosition;
+            await new Promise(resolve=>setTimeout(()=>resolve('done'),500));
+            movesStack.push({oldPos:nextState,newPos:emptyTilePosition,num:tilesArray[nextState]});
+            this.makeMove(nextState,tilesArray[nextState],movesStack);
+            m++;
+        }
+    }
 }
 customElements.define('grid-element',Grid);
 
 function getRandomInt(max) {
     return (Math.floor(Math.random() * Math.floor(max))*31)%max + 1;
+}
+
+function getNextState(tilesArray,emptyPosition,lastState){
+    let possibleMoves = [];
+    let x = Math.floor(emptyPosition/size);
+    let y = emptyPosition%size;
+    if(x-1>=0){
+        let n = (x-1)*size+y;
+        if(n!=lastState){
+            possibleMoves.push(n);
+        }
+    }
+    if(x+1<size){
+        let n = (x+1)*size+y;
+        if(n!=lastState){
+            possibleMoves.push(n);
+        }
+    }
+    if(y+1<size){
+        let n = (x)*size+(y+1);
+        if(n!=lastState){
+            possibleMoves.push(n);
+        }
+    }
+    if(y-1>=0){
+        let n = (x)*size+ (y-1);
+        if(n!=lastState){
+            possibleMoves.push(n);
+        }
+    }
+    let score = 1000;
+    let nextState = emptyPosition;
+    for(let i=0;i<possibleMoves.length;i++){
+        let newArray = [...tilesArray];
+        let temp = newArray[possibleMoves[i]];
+        newArray[possibleMoves[i]] = 0;
+        newArray[emptyPosition] = temp;
+        let tempScore = fScore(newArray);
+        if(tempScore < score){
+            score = tempScore;
+            nextState = possibleMoves[i];
+        }
+    }
+    return nextState;
+}
+
+function fScore(array){
+    let score = -1;
+    for(let i=0;i<array.length;i++){
+        if(array[i] != i+1){
+            score++;
+        }
+    }
+    return score;
 }
 
 function createSolvableGame(level){
